@@ -1,0 +1,53 @@
+{% extends 'Buyer/base.html'%}
+{%block body%}
+{% load staticfiles%}
+    <head>
+        <link rel = "stylesheet" type = "text/css" href = "{% static 'Test/style.css'%}"/>
+     </head>
+        <div class = "container">
+    <h1>Hello {{user.username}}</h1>
+    <ul>
+	<!--Method 1-->
+        <div class = "row">
+            <h2>All Items</h2>
+        {% for var in all_albums %}
+        {% csrf_token %}
+            <div class = "panel panel-default col-md-4">
+                <div class = "album">
+                    <a href = "{% url 'Test:album_data' var.id%}"><img  src = {{var.album_logo.url}}  class = "img-responsive" width="400" height="236"></a>
+                </div>
+                    <h4>{{var}} </h4>
+                    <a href = "{% url 'Test:album_data' var.id%}" class = "btn btn-primary btn-sm col-md-3">View Details</a>
+                    <form action = "{% url 'Test:album-delete' var.id %}" method="POST" style="display:inline">
+                        <input type="hidden" name="album_id" value="{{ album.id }}"/>
+                        {% csrf_token %}
+                        <button type="submit" class = "btn btn-default"><span class = "glyphicon glyphicon-trash"></span></button>
+                    </form>
+                    <form action = "{% url 'Test:album-update' var.id %}" method="POST" style="display:inline">
+                        {% csrf_token %}
+                        <button type="submit" class = "btn btn-default"><span class = "glyphicon glyphicon-pencil"></span></button>
+                    </form>
+
+       <!--<strong><h4><li><a href = "{% url 'Test:album_data' var.id%}"> {{var.album_title}} </a><br></h4></strong>-->
+            </div>
+            {% endfor %}
+         </div>
+
+</div>
+    </ul>
+{% endblock %}
+
+<!--METHOD - 1
+{% for var in all_albums %}
+        <div class = 'col-md-4'>
+            <img src = {{var.album_logo}}
+        </div>
+       <strong><h4><li><a href = "{% url 'Test:album_data' var.id%}"> {{var.album_title}} </a><br></h4></strong>
+        {% endfor %}
+<!--METHOD - 2
+{% for var in all_album %}
+    <li><a href = "/test/{{var.id}}";> {{var.album_title}}</a></li>
+{% endfor %}
+-->
+
+

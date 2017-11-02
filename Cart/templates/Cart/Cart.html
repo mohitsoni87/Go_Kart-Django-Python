@@ -1,0 +1,62 @@
+<title>Cart</title>
+{% extends 'GO_KART/base.html' %}
+{% block body %}
+
+{% load staticfiles%}
+{% if data %}
+    <div class = 'container'>
+        <h1>Cart Items</h1>
+        <br>
+    </div>
+    <script>
+function Split(Seller_Username, UniqueKey, Username){
+    var Username = Username;
+    var str = Seller_Username;
+    var str1 = document.getElementById(UniqueKey).innerHTML;
+    if(str ==    "Flipkart"){
+    str1 = str1.replace(" ", "%20");
+    window.open('https://Flipkart.com/search?q=' + str1);}
+    else if (str == "Amazon"){
+        str1 = str1.replace(" ", "%20");
+        window.open('https://www.amazon.in/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=' + str1);}
+    else if (str == "Myntra"){
+        str1 = str1.replace(" ", "%20");
+        window.open('https://www.myntra.com/' + str1 + '?userQuery=true');}
+    else{
+    window.location = '/orders/' + Username + '/' + UniqueKey + '/add/';
+    }
+}
+</script>
+    {% for field in data %}
+            {% if field.User == user.username %}
+                    {% csrf_token %}
+                        <div class = 'container'>
+                        <div class = "panel panel-default col-md-12">
+                            <div class = "panel panel-default col-md-4">
+                                <div class = "album">
+                                    <a href = ""><img  src = '{{field.Product_Image.url}}' class = "img-responsive" width="400" height="236"></a>
+                                </div>
+                            </div>
+                            <h3><b><span id={{field.pk}}>{{field.Product_Name}}</span></b>  |   Price: <b>₹{{ field.Price }}</b></h3>
+                            <h3>Company: <b>{{ field.Company_Name }}</b></h3>
+                            <h3>Seller: <b>{{ field.Seller_Username }}</b> </h3>
+
+                            <button type="submit" onclick = Split('{{field.Seller_Username}}','{{field.pk}}') class = "btn btn-success" name = 'Buy' value = '{{ field.Seller_Username }}'>&nbsp;Buy</button>
+
+                            <form action = "/cart/{{user.username}}/{{field.pk}}/delete/" method="POST" style="display:inline">
+                                    <input type="hidden" name='' value=""/>
+                                    {% csrf_token %}
+                                    <button type="submit" class = "btn btn-default"><span class = "glyphicon glyphicon-trash"></span></button>
+                            </form>
+                        </div>
+                        </div>
+            {% endif %}
+            {% endfor %}
+{% else %}
+    <div class = 'container'>
+        <h2 class = "alert alert-danger">Seems like your cart is empty.</h2>
+        <br>
+    </div>
+
+{% endif %}
+{% endblock %}

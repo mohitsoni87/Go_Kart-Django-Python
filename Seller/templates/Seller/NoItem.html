@@ -1,0 +1,7 @@
+{% extends 'GO_KART/base.html' %}
+{% block title %}Item not found!{% endblock %}
+{%block body%}
+{{data}}
+<h4 class = "alert alert-danger">Sorry, no results found!
+Please check the spelling for {{ object }} or try searching for something else</h4>
+{% endblock %}

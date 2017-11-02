@@ -1,0 +1,22 @@
+{% extends 'GO_KART/base.html' %}
+<title>Sell</title>
+{% block body%}
+<div class = "container">
+    <div class = "row">
+        <div class = "col-sm-12 col-md-6">
+            <div class = "panel panel-default">
+                <br>
+                <form class = "form-horizontal" action = "" method = "post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% include 'Seller/form-template.html' %}
+                    <div class = "form-group">
+                        <div class = "col-md-offset-2 col-md-2">
+                            <a href=""><button type = "submit" class="btn btn-success">Submit</button></a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

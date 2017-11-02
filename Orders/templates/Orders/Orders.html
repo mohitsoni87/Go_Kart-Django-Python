@@ -1,0 +1,41 @@
+<title>Cart</title>
+{% extends 'GO_KART/base.html' %}
+{% block body %}
+
+{% load staticfiles%}
+{% if data %}
+    <div class = 'container'>
+        <h1>Your Orders</h1>
+        <br>
+    </div>
+    {% for field in data %}
+            {% if field.User == user.username %}
+                    {% csrf_token %}
+                        <div class = 'container'>
+                        <div class = "panel panel-default col-md-12">
+                            <div class = "panel panel-default col-md-4">
+                                <div class = "album">
+                                    <a href = ""><img  src = '{{field.Product_Image.url}}' class = "img-responsive" width="400" height="236"></a>
+                                </div>
+                            </div>
+                            <h3><b><span id={{field.pk}}>{{field.Product_Name}}</span></b>  |   Price: <b>₹{{ field.Price }}</b></h3>
+                            <h3>Company: <b>{{ field.Company_Name }}</b></h3>
+                            <h3>Seller: <b>{{ field.Seller_Username }}</b> </h3>
+
+                            <form action = "/orders/{{field.pk}}/delete/" method="POST" style="display:inline">
+                                    <input type="hidden" name='' value=""/>
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Cancel </button>
+                            </form>
+                        </div>
+                        </div>
+            {% endif %}
+            {% endfor %}
+{% else %}
+    <div class = 'container'>
+        <h2 class = "alert alert-danger">Seems like you haven't ordered anything yet :(</h2>
+        <br>
+    </div>
+
+{% endif %}
+{% endblock %}

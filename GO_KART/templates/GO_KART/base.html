@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Go Kart!{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    {% load staticfiles %}
+</head>
+<body>
+<nav class = "navbar navbar-inverse">
+     <div class = "container-fluid">
+        <div class = "navbar-header">
+            <a href = "/" class = "navbar-brand">GO KART</a>
+         <button type = "button" class = "navbar-toggle " data-toggle = "collapse" data-target = "#main">
+             <span class = "icon-bar"></span>
+             <span class = "icon-bar"></span>
+             <span class = "icon-bar"></span>
+         </button>
+        </div>
+        <div class = "collapse navbar-collapse" id = "main">
+            {% csrf_token %}
+			{% include 'Accounts/loginpartial.html'%}
+        </div>
+        </div>
+    </nav>
+{% if user.is_authenticated %}
+    {%block body%}
+    {% endblock %}
+{% else %}
+<!--<h4 class = "alert alert-danger">Please Log in or Register to access Go Kart.</h4>-->
+
+<div class = "container">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <center><h1><font size="100%">Welcome to Go Kart</font></h1></center>
+</div>
+
+{% endif %}
+</body>
+</html>

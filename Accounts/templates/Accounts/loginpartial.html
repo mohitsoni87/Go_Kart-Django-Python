@@ -1,0 +1,27 @@
+{% if user.is_authenticated %}
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href = "/cart/{{user.username}}/ "><span class = "glyphicon glyphicon-shopping-cart"></span>&nbsp;Cart</a></li>
+        <li><a href = "/sell-item"><span class = "glyphicon glyphicon-usd"></span>&nbsp; Sell</a></li>
+        <li class = "dropdown">
+                    <a href =#" class = "dropdown-toggle" data-toggle = "dropdown"><span class = "glyphicon glyphicon-user"></span>&nbsp; Hello {{ user.username }}<span class = "caret"></span></a>
+                    <ul class = "dropdown-menu">
+                        <li><a href="/orders/{{user.username}}/">Orders</a> </li>
+                        <li><a href="{% url 'Seller:SellingItems'%}">Selling cart</a></li>
+                        <li><a href = '/logout'>Logout</a> </li>
+                    </ul>
+                </li>
+    </ul>
+    <form class = "navbar-form navbar-left" role = "search" method="get" action = "/results/">
+                <div class = "form-group search">
+                    <input type = "text" value = "" name = "q" placeholder = "Search for Products" required>
+                </div>
+                <button type = "submit" class = "btn btn-primary"><span class = "glyphicon glyphicon-search"></span>&nbsp;</button>
+    </form>
+{% else %}
+<ul class="nav navbar-nav navbar-right">
+    <li><a href="/login"><span class = "glyphicon glyphicon-log-in"></span>&nbsp;Log in</a></li>
+	<li><a href = "/register"><span class = "glyphicon glyphicon-user"></span>&nbsp; Register</a></li>
+</ul>
+
+{% endif %}
+                

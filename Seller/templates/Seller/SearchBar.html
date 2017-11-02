@@ -1,0 +1,50 @@
+<title>Items to Sell</title>
+{% extends 'GO_KART/base.html' %}
+{% block body %}
+{% load staticfiles%}
+<div class = 'container'>
+    <h2>Results for {{ query }}</h2>
+</div>
+    <script>
+function Split(Seller_Username, UniqueKey, Username){
+    var Username = Username;
+    var str = Seller_Username;
+    var str1 = document.getElementById(UniqueKey).innerHTML;
+    if(str ==    "Flipkart"){
+    str1 = str1.replace(" ", "%20");
+    window.open('https://Flipkart.com/search?q=' + str1);}
+    else if (str == "Amazon"){
+        str1 = str1.replace(" ", "%20");
+        window.open('https://www.amazon.in/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=' + str1);}
+    else if (str == "Myntra"){
+        str1 = str1.replace(" ", "%20");
+        window.open('https://www.myntra.com/' + str1 + '?userQuery=true');}
+    else{
+    window.location = '/orders/' + Username + '/' + UniqueKey + '/add/';
+    }
+}
+</script>
+
+        {% for field in object %}
+        {% csrf_token %}
+            <div class = 'container'>
+            <div class = "panel panel-default col-md-12">
+                <div class = "panel panel-default col-md-4">
+                    <div class = "album">
+                        <a href = ""><img  src = '{{field.Product_Image.url}}' class = "img-responsive" width="400" height="236"></a>
+                    </div>
+                </div>
+                <h3><b><span id={{field.pk}}>{{field.Product_Name}}</span></b><br>&nbsp;Price: <b>₹{{ field.Price }}</b></h3>
+                <h3>&nbsp;Company: <b>{{ field.Company_Name }}</b></h3>
+                <h3>&nbsp;Seller: <b>{{ field.Seller_Username }}</b> </h3>
+                <form action = "{% url 'Cart:add_to_cart'  user.username  %}" method="POST" style="display:inline">
+                    {% csrf_token %}
+                    <button type="submit" class = "btn btn-primary" name = 'Add_to_Cart' value = '{{ field.pk }}' ><span class = "glyphicon glyphicon-plus"></span>&nbsp;Add to Cart</button>
+                </form>
+                    <button type="submit" onclick = Split('{{field.Seller_Username}}','{{field.pk}}','{{user.username}}') class = "btn btn-success" name = 'Buy' value = '{{ field.pk }}'>&nbsp;Buy</button>
+            </div>
+
+            </div>
+
+        {% endfor %}
+{% endblock %}

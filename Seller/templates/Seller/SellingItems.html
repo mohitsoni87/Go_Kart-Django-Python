@@ -1,0 +1,38 @@
+<title>Items to Sell</title>
+{% extends 'GO_KART/base.html' %}
+{% block body %}
+        {% load staticfiles%}
+
+{% if items %}
+        <div class = 'container'>
+            <h2>Your Selling Cart</h2>
+            <br>
+        </div>
+                <div class = 'container'>
+        {% for item in items %}
+            <!--{% if item.Seller_Username == user.username %}-->
+                {% csrf_token %}
+
+                    <div class = "panel panel-default col-md-4">
+                        <div class = "album">
+                            <a href = ""><img  src = '{{item.Product_Image.url}}' class = "img-responsive" width="400" height="236"></a>
+                        </div>
+                        <h4><b>{{item.Product_Name}} </b>  |   Selling Price: <b>₹{{ item.Price }}</b>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<form action = "/selling-items/{{user.username}}/{{item.pk}}/delete/" method="POST" style="display:inline">
+                                    <input type="hidden" name='' value=""/>
+                                    {% csrf_token %}
+                                    <button type="submit" class = "btn btn-default"><span class = "glyphicon glyphicon-trash"></span></button>
+                        </form></h4>
+                    </div>
+
+            <!--{% endif %}-->
+        {% endfor %}
+                    </div>
+
+{% else %}
+    <div class = 'container'>
+        <h2 class = "alert alert-danger">Seems like your Selling cart is empty.</h2>
+        <br>
+    </div>
+{% endif %}
+{% endblock %}
